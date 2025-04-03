@@ -2,6 +2,9 @@
 using System.IO;
 using Microsoft.Extensions.Logging;
 
+/// <summary>
+/// Specifies the file operations that can be performed.
+/// </summary>
 public enum FileOperation
 {
     Copy,
@@ -9,13 +12,34 @@ public enum FileOperation
     Delete
 }
 
+/// <summary>
+/// Represents a command to perform file operations such as copy, move, or delete.
+/// </summary>
 public class FileCommand
 {
     private readonly ILogger<FileCommand> _logger;
-    public string SourcePath { get; }
+
+    /// <summary>
+    /// Gets the source path of the file.
+    /// </summary>
+    public string? SourcePath { get; }
+
+    /// <summary>
+    /// Gets the destination path of the file.
+    /// </summary>
     public string? DestinationPath { get; }
+    /// <summary>
+    /// Gets the file operation to be performed.
+    /// </summary>
     public FileOperation Operation { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FileCommand"/> class.
+    /// </summary>
+    /// <param name="sourcePath">The source path of the file.</param>
+    /// <param name="destinationPath">The destination path of the file.</param>
+    /// <param name="operation">The file operation to be performed.</param>
+    /// <param name="logger">The logger to log information and errors.</param>
     public FileCommand(string sourcePath, string? destinationPath, FileOperation operation, ILogger<FileCommand> logger)
     {
         SourcePath = sourcePath;
@@ -24,10 +48,22 @@ public class FileCommand
         _logger = logger;
     }
 
+    /// <summary>
+    /// Executes the file operation.
+    /// </summary>
     public void Execute()
     {
         try
         {
+            if (!(FileOperation.Delete == Operation))
+            {
+                if (!File.Exists(SourcePath))
+                {
+                    _logger.LogWarning($"Source file does not exist: {SourcePath}");
+                    return;
+                }
+            }
+
             switch (Operation)
             {
                 case FileOperation.Copy:
@@ -55,6 +91,14 @@ public class FileCommand
                     _logger.LogWarning($"Invalid operation for {SourcePath}");
                     break;
             }
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            _logger.LogError($"Access denied to {SourcePath}: {ex.Message}");
+        }
+        catch (IOException ex)
+        {
+            _logger.LogError($"IO error processing {SourcePath}: {ex.Message}");
         }
         catch (Exception ex)
         {

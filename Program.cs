@@ -3,10 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
+/// <summary>
+/// The main entry point for the application.
+/// </summary>
 class Program
 {
     static void Main()
@@ -24,25 +28,7 @@ class Program
         {
             projectRoot = Directory.GetParent(projectRoot)?.FullName ?? projectRoot;
         }
-
-        var sourcePath = Path.Combine(projectRoot, config["Paths:Source"]);
-        var archivePath = Path.Combine(projectRoot, config["Paths:Archive"]);
-        var destinationPath = Path.Combine(projectRoot, config["Paths:Destination"]);
         var logFilePath = Path.Combine(projectRoot, config["Logging:LogFilePath"]);
-        var filename =  config["paths:Filename"] ?? "file1.txt";
-
-
-        //string networkPath = Path.Combine(projectRoot, "NetworkPath");
-        //string sourcePath = Path.Combine(networkPath, "Source");
-        //string archivePath = Path.Combine(networkPath, "Archive");
-        //string destinationPath = Path.Combine(networkPath, "Destination");
-        //string logFilePath = Path.Combine(networkPath, "logs", "FileOperations.log");
-
-        // Ensure directories exist
-        //Directory.CreateDirectory(sourcePath);
-        //Directory.CreateDirectory(archivePath);
-        //Directory.CreateDirectory(destinationPath);
-        //Directory.CreateDirectory(Path.GetDirectoryName(logFilePath));
 
         // Configure Serilog
         Log.Logger = new LoggerConfiguration()
@@ -61,6 +47,18 @@ class Program
             })
             .Build();
 
+        ExucuteFlow(projectRoot, config, builder);
+    }
+
+    private static void ExucuteFlow(string projectRoot, IConfiguration config, IHost builder)
+    {
+        var sourcePath = Path.Combine(projectRoot, config["Paths:Source"]);
+        var archivePath = Path.Combine(projectRoot, config["Paths:Archive"]);
+        var destinationPath = Path.Combine(projectRoot, config["Paths:Destination"]);
+        var filename = config["paths:Filename"] ?? "file1.txt";
+
+        
+
         // Resolve loggers
         var loggerFactory = builder.Services.GetRequiredService<ILoggerFactory>();
         var logger = loggerFactory.CreateLogger<Program>();
@@ -68,6 +66,24 @@ class Program
         var fileProcessorLogger = loggerFactory.CreateLogger<FileProcessor>();
 
         logger.LogInformation("FileFerry application started...");
+
+
+        if (!Directory.Exists(sourcePath))
+        {
+            logger.LogError("sourcePath not exist...");
+            return;
+        }
+
+        if (!Directory.Exists(archivePath))
+        {
+            logger.LogError("archivePath not exist...");
+            return;
+        }
+        if (!Directory.Exists(destinationPath))
+        {
+            logger.LogError("destinationPath not exist...");
+            return;
+        }
 
         try
         {
@@ -79,7 +95,7 @@ class Program
                 new FileCommand(Path.Combine(sourcePath, filename), null, FileOperation.Delete, fileCommandLogger)
             };
 
-           
+
 
             var processor = new FileProcessor(commands, fileProcessorLogger);
             processor.ExecuteWorkflow();
@@ -95,4 +111,6 @@ class Program
 
         Console.WriteLine("File processing completed. Check logs for details.");
     }
+
+   
 }
