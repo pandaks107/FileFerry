@@ -55,9 +55,7 @@ class Program
         var sourcePath = Path.Combine(projectRoot, config["Paths:Source"]);
         var archivePath = Path.Combine(projectRoot, config["Paths:Archive"]);
         var destinationPath = Path.Combine(projectRoot, config["Paths:Destination"]);
-        var filename = config["paths:Filename"] ?? "file1.txt";
-
-        
+        var filename = config["paths:Filename"] ?? "file1.txt";        
 
         // Resolve loggers
         var loggerFactory = builder.Services.GetRequiredService<ILoggerFactory>();
@@ -66,7 +64,6 @@ class Program
         var fileProcessorLogger = loggerFactory.CreateLogger<FileProcessor>();
 
         logger.LogInformation("FileFerry application started...");
-
 
         if (!Directory.Exists(sourcePath))
         {
@@ -95,8 +92,6 @@ class Program
                 new FileCommand(Path.Combine(destinationPath, filename), null, FileOperation.Delete, fileCommandLogger)
             };
 
-
-
             var processor = new FileProcessor(commands, fileProcessorLogger);
             processor.ExecuteWorkflow();
         }
@@ -110,7 +105,5 @@ class Program
         }
 
         Console.WriteLine("File processing completed. Check logs for details.");
-    }
-
-   
+    }   
 }

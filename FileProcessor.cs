@@ -20,8 +20,6 @@ public class FileProcessor
         _commands = commands;
         _logger = logger;
     }
-
-
     /// <summary>
     /// Executes the workflow of file commands.
     /// </summary>

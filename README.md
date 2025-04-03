@@ -80,7 +80,7 @@ Example : Network path created Root path: \\MSI\Networkpath
 
 2️⃣ **Move** file from `Archive` → `Destination`
 
-3️⃣ **Delete** file from `Source` if it successfully reaches `Destination`
+3️⃣ **Delete** file from `Destination`
 
 ```markdown
 ![Step 1: Screenshot](images/networkPath.png)
@@ -94,10 +94,19 @@ Logs are stored in `\\MSI\Networkpath` and include detailed **file operations, w
 ```
 [21:52:33 INF] FileFerry application started...
 [21:52:33 INF] Starting file processing workflow...
+
 [21:52:33 INF] Copied: \\MSI\Networkpath\Source\file1.txt -> \\MSI\Networkpath/Archive\file1.txt
+
 [21:52:33 INF] Moved: \\MSI\Networkpath/Archive\file1.txt -> \\MSI\Networkpath/Destination\file1.txt
+
 [21:52:33 INF] Deleted: \\MSI\Networkpath/Destination\file1.txt
+
 [21:52:33 INF] Workflow execution completed.
+
+[21:52:33 INF] File processing completed successfully.
+
+[21:52:33 INF] Application finished.
+```
 File processing completed. Check logs for details.
 ```
 
