@@ -90,9 +90,9 @@ class Program
             // File operations workflow
             var commands = new List<FileCommand>
             {
-                new FileCommand(Path.Combine(archivePath, filename), Path.Combine(sourcePath, filename), FileOperation.Copy, fileCommandLogger),
-                new FileCommand(Path.Combine(sourcePath, filename), Path.Combine(destinationPath, filename), FileOperation.Move, fileCommandLogger),
-                new FileCommand(Path.Combine(sourcePath, filename), null, FileOperation.Delete, fileCommandLogger)
+                new FileCommand(Path.Combine(sourcePath, filename), Path.Combine(archivePath, filename), FileOperation.Copy, fileCommandLogger),
+                new FileCommand(Path.Combine(archivePath, filename), Path.Combine(destinationPath, filename), FileOperation.Move, fileCommandLogger),
+                new FileCommand(Path.Combine(destinationPath, filename), null, FileOperation.Delete, fileCommandLogger)
             };
 
 

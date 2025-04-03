@@ -92,12 +92,12 @@ Logs are stored in `\\MSI\Networkpath` and include detailed **file operations, w
 
 **Example Log Output:**
 ```
-[17:51:55 INF] FileFerry application started...
-[17:51:55 INF] Starting file processing workflow...
-[17:51:57 INF] Copied: \\MSI\Networkpath/Archive\file1.txt -> \\MSI\Networkpath\Source\file1.txt
-[17:51:57 INF] Moved: \\MSI\Networkpath\Source\file1.txt -> \\MSI\Networkpath/Destination\file1.txt
-[17:51:57 INF] Deleted: \\MSI\Networkpath\Source\file1.txt
-[17:51:57 INF] Workflow execution completed.
+[21:52:33 INF] FileFerry application started...
+[21:52:33 INF] Starting file processing workflow...
+[21:52:33 INF] Copied: \\MSI\Networkpath\Source\file1.txt -> \\MSI\Networkpath/Archive\file1.txt
+[21:52:33 INF] Moved: \\MSI\Networkpath/Archive\file1.txt -> \\MSI\Networkpath/Destination\file1.txt
+[21:52:33 INF] Deleted: \\MSI\Networkpath/Destination\file1.txt
+[21:52:33 INF] Workflow execution completed.
 File processing completed. Check logs for details.
 ```
 
