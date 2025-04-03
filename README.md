@@ -37,21 +37,10 @@ FileFerry/                 # Root directory
 ## ⚙️ Setup & Installation
 ### 1️⃣ **Clone the Repository**
 ```bash
-git clone <repo-url>
+git clone <https://github.com/pandaks107/FileFerry>
 cd FileFerry
 ```
 
-### 2️⃣ **Install Dependencies**
-```bash
-dotnet restore
-```
-
-### 3️⃣ **Run the Application**
-```bash
-dotnet run
-```
-
----
 
 ## 🛠 Configuration (`appsettings.json`)
 The application reads paths and logging settings from `appsettings.json`:
@@ -64,7 +53,7 @@ The application reads paths and logging settings from `appsettings.json`:
     "Destination": "networkpath/Destination"
   },
   "Logging": {
-    "LogFilePath": "logs/app.log"
+    "LogFilePath": "Networkpath"
   }
 }
 ```
